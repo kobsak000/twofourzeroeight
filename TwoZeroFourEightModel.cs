@@ -8,9 +8,12 @@ namespace twozerofoureight
 {
     class TwoZeroFourEightModel : Model
     {
+
         protected int boardSize; // default is 4
         protected int[,] board;
         protected Random rand;
+        public int score = 0;
+        public string lb = "";
 
         public TwoZeroFourEightModel() : this(4)
         {
@@ -22,36 +25,73 @@ namespace twozerofoureight
             return board;
         }
 
+        public int Upscore(int[,] input)
+        {
+            int sc = 0;
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    sc += input[i, j];
+
+                }
+            }
+            return sc;
+
+        }
+
+        public bool game(int[,] board)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (board[i, j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public TwoZeroFourEightModel(int size)
         {
             boardSize = size;
             board = new int[boardSize, boardSize];
             var range = Enumerable.Range(0, boardSize);
-            foreach(int i in range) {
-                foreach(int j in range) {
-                    board[i,j] = 0;
+            foreach (int i in range) {
+                foreach (int j in range) {
+                    board[i, j] = 0;
                 }
             }
             rand = new Random();
             board = Random(board);
             NotifyAll();
+
         }
 
         private int[,] Random(int[,] input)
         {
-            while (true)
+            int x = 0, y = 0;
+            while (!game(input))
             {
-                int x = rand.Next(boardSize);
-                int y = rand.Next(boardSize);
+                x = rand.Next(boardSize);
+                y = rand.Next(boardSize);
+
                 if (board[x, y] == 0)
                 {
                     board[x, y] = 2;
                     break;
                 }
+                if (game(input))
+                    return input;
             }
             return input;
         }
 
+        
         public void PerformDown()
         {
             int[] buffer;
@@ -82,6 +122,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        //score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -102,6 +143,7 @@ namespace twozerofoureight
                 }
             }
             board = Random(board);
+            lb = "Score : " + Convert.ToString(score);
             NotifyAll();
         }
 
@@ -134,6 +176,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        //score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -154,6 +197,7 @@ namespace twozerofoureight
                 }
             }
             board = Random(board);
+            lb = "Score : " + Convert.ToString(score);
             NotifyAll();
         }
 
@@ -188,6 +232,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        //score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -208,6 +253,7 @@ namespace twozerofoureight
                 }
             }
             board = Random(board);
+            lb = "Score : " + Convert.ToString(score);
             NotifyAll();
         }
 
@@ -239,6 +285,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        //score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -258,6 +305,7 @@ namespace twozerofoureight
                 }
             }
             board = Random(board);
+            lb = "Score : " + Convert.ToString(score);
             NotifyAll();
         }
     }

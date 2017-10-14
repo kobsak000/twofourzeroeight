@@ -24,6 +24,7 @@ namespace twozerofoureight
             {
                 switch (action)
                 {
+
                     case LEFT:
                         m.PerformLeft();
                         break; 
